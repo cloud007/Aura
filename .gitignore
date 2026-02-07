@@ -1,0 +1,25 @@
+### IntelliJ IDEA ###
+.idea/*
+*.iws
+*.iml
+*.ipr
+**/.run/
+
+Binaries
+DerivedDataCache
+Intermediate
+Saved
+ThirdPerson
+.vscode
+.vsconfig
+.vs
+*.VC.db
+*.opensdf
+*.opendb
+*.sdf
+*.sln
+*.suo
+*.xcodeproj
+*.xcworkspace
+
+Warrior.uproject.DotSettings.user
