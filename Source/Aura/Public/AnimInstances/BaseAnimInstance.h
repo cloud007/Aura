@@ -5,6 +5,7 @@
 #include "CoreMinimal.h"
 #include "Animation/AnimInstance.h"
 #include "Character/AuraCharacterBase.h"
+#include "GameFramework/CharacterMovementComponent.h"
 #include "BaseAnimInstance.generated.h"
 
 /**
@@ -28,4 +29,7 @@ protected:
 
 	UPROPERTY(VisibleDefaultsOnly, BlueprintReadWrite, Category = "AnimData|LocomotionData")
 	float GroundSpeed;
+	
+	UPROPERTY(VisibleDefaultsOnly, BlueprintReadWrite, Category = "AnimData|LocomotionData")
+	bool ShouldMove;
 };
