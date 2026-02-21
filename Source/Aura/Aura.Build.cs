@@ -16,7 +16,6 @@ public class Aura : ModuleRules
 			"InputCore", 
 			"EnhancedInput",
 			"GameplayTags",
-			"GameplayTasks", 
 			"AnimGraphRuntime"
 		});
 
