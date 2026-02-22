@@ -11,12 +11,6 @@ AAuraPlayerController::AAuraPlayerController()
 	bReplicates = true;
 }
 
-void AAuraPlayerController::PlayerTick(float DeltaTime)
-{
-	Super::PlayerTick(DeltaTime);
-	CursorTrace();
-}
-
 void AAuraPlayerController::BeginPlay()
 {
 	Super::BeginPlay();
@@ -37,6 +31,8 @@ void AAuraPlayerController::BeginPlay()
 	InputModeData.SetHideCursorDuringCapture(false);
 	
 	SetInputMode(InputModeData);
+
+	GetWorldTimerManager().SetTimer(CursorTraceTimerHandle, this, &AAuraPlayerController::CursorTrace, 0.1f, true);
 }
 
 void AAuraPlayerController::SetupInputComponent()
