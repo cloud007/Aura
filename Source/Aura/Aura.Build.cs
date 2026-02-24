@@ -15,12 +15,12 @@ public class Aura : ModuleRules
 			"Engine", 
 			"InputCore", 
 			"EnhancedInput",
-			"AnimGraphRuntime"
+			"AnimGraphRuntime",
+			"GameplayAbilities"
 		});
 
 		PrivateDependencyModuleNames.AddRange(new string[]
 		{
-			"GameplayAbilities",
 			"GameplayTags",
 			"GameplayTasks"
 		});
