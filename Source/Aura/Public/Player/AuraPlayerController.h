@@ -7,11 +7,6 @@
 #include "GameFramework/PlayerController.h"
 #include "AuraPlayerController.generated.h"
 
-class UInputMappingContext;
-class UInputAction;
-struct FInputActionValue;
-class IEnemyInterface;
-
 /**
  * 
  */
@@ -29,16 +24,16 @@ protected:
 	
 private:
 	UPROPERTY(EditAnywhere, Category = "Input")
-	TObjectPtr<UInputMappingContext> AuraContext;
+	TObjectPtr<class UInputMappingContext> AuraContext;
 	
 	UPROPERTY(EditAnywhere, Category = "Input")
-	TObjectPtr<UInputAction> MoveAction;
+	TObjectPtr<class UInputAction> MoveAction;
 
-	void Move(const FInputActionValue& InputActionValue);
+	void Move(const struct FInputActionValue& InputActionValue);
 	
 	void CursorTrace();
 	FTimerHandle CursorTraceTimerHandle;
 	
-	TScriptInterface<IEnemyInterface> LastActor;
+	TScriptInterface<class IEnemyInterface> LastActor;
 	TScriptInterface<IEnemyInterface> ThisActor;
 };
