@@ -5,6 +5,7 @@
 #include "CoreMinimal.h"
 #include "AbilitySystemComponent.h"
 #include "UObject/Object.h"
+#include "Structs/AuraStruct.h"
 #include "AuraWidgetController.generated.h"
 
 /**
@@ -14,6 +15,10 @@ UCLASS()
 class AURA_API UAuraWidgetController : public UObject
 {
 	GENERATED_BODY()
+	
+public:
+	UFUNCTION(BlueprintCallable)
+	void SetWidgetControllerParams(const FWigetControllerParams& Params);
 	
 protected:
 	UPROPERTY(BlueprintReadOnly, Category="WidgetController")
