@@ -24,7 +24,13 @@ public:
 	UPROPERTY(BlueprintAssignable, Category = "GAS|Attributes")
 	FOnHealthChanged OnHealthChanged;
 	
+	UPROPERTY(BlueprintAssignable, Category = "GAS|Attributes")
+	FOnManaChanged OnManaChanged;
+	
 protected:
 	void HealthChanged(const FOnAttributeChangeData& Data) const;
 	void MaxHealthChanged(const FOnAttributeChangeData& Data) const;
+	
+	void ManaChanged(const FOnAttributeChangeData& Data) const;
+	void MaxManaChanged(const FOnAttributeChangeData& Data) const;
 };
