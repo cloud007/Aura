@@ -28,7 +28,13 @@ void AAuraEffectActor::ApplyEffectToTarget(AActor* TargetActor, TSubclassOf<UGam
 		const FGameplayEffectSpecHandle EffectSpecHandle = AbilitySystemComponent->MakeOutgoingSpec(GameplayEffectClass, 1, EffectContextHandle);
 		if (EffectSpecHandle.IsValid())
 		{
-			AbilitySystemComponent->ApplyGameplayEffectSpecToSelf(*EffectSpecHandle.Data.Get());
+			FActiveGameplayEffectHandle ActiveEffectHandle = AbilitySystemComponent->ApplyGameplayEffectSpecToSelf(*EffectSpecHandle.Data.Get());
+
+			const bool bIsInfinite = EffectSpecHandle.Data->Def->DurationPolicy == EGameplayEffectDurationType::Infinite;
+			if (bIsInfinite && InfiniteEffectRemovalPolicy == EEffectRemovalPolicy::RemoveOnEndOverlap)
+			{
+				ActiveEffectHandles.Add(ActiveEffectHandle, AbilitySystemComponent);
+			}
 		}
 	}
 }
@@ -44,7 +50,7 @@ void AAuraEffectActor::OnOverlap(AActor* TargetActor)
 		ApplyEffectToTarget(TargetActor, DurationGameplayEffectClass);
 	}
 	if (InfiniteGameplayEffectClass && InfiniteEffectApplicationPolicy == EEffectApplicationPolicy::ApplyOnOverlap)
-	{		
+	{
 		ApplyEffectToTarget(TargetActor, InfiniteGameplayEffectClass);
 	}
 }
@@ -62,5 +68,31 @@ void AAuraEffectActor::OnEndOverlap(AActor* TargetActor)
 	if (InfiniteGameplayEffectClass && InfiniteEffectApplicationPolicy == EEffectApplicationPolicy::ApplyOnEndOverlap)
 	{
 		ApplyEffectToTarget(TargetActor, InfiniteGameplayEffectClass);
+	}
+	
+	if (InfiniteEffectRemovalPolicy == EEffectRemovalPolicy::RemoveOnEndOverlap)
+	{
+		UAbilitySystemComponent* AbilitySystemComponent = UAbilitySystemBlueprintLibrary::GetAbilitySystemComponent(TargetActor);
+		if (!IsValid(AbilitySystemComponent)) return;
+		
+		TArray<FActiveGameplayEffectHandle> HandlesToRemove;
+		for (const auto& Pair : ActiveEffectHandles)
+		{
+			if (Pair.Value && Pair.Value == AbilitySystemComponent)
+			{
+				AbilitySystemComponent->RemoveActiveGameplayEffect(Pair.Key, 1);
+				HandlesToRemove.Add(Pair.Key);
+			}
+		}
+		
+		for (const FActiveGameplayEffectHandle& Handle : HandlesToRemove)
+		{
+			ActiveEffectHandles.Remove(Handle);
+		}
+		
+		// if (bDestroyOnEffectRemoval)
+		// {
+		// 	Destroy();
+		// }
 	}
 }
