@@ -14,15 +14,6 @@ void UAuraAbilitySystemComponent::EffectApplied(UAbilitySystemComponent* Ability
 {
 	FGameplayTagContainer TagContainer;
 	EffectSpec.GetAllAssetTags(TagContainer);
-	for (const FGameplayTag& Tag : TagContainer)
-	{
-		
-		GEngine->AddOnScreenDebugMessage(-1, 5.f, FColor::Green, FString::Printf(TEXT("GE Tag Applied: %s"), *Tag.ToString()));
-		if (Tag.MatchesTag(FGameplayTag::RequestGameplayTag(FName("Effect.Damage"))))
-		{
-			UE_LOG(LogTemp, Warning, TEXT("Damage Effect Applied"));
-		}
-	}
 	
-	
+	EffectAssetTags.Broadcast(TagContainer);
 }
