@@ -34,7 +34,19 @@ void UOverlayWidgetController::BindCallbacksToDependencies()
 	{
 		for (const FGameplayTag& Tag : AssetTags)
 		{
-			GEngine->AddOnScreenDebugMessage(-1, 5.f, FColor::Green, FString::Printf(TEXT("GE Lambda Tag Applied: %s"), *Tag.ToString()));
+			if (!Tag.IsValid() || !MessageWidgetDataTable)
+			{
+				continue;	
+			}
+			const FGameplayTag MessageTag = FGameplayTag::RequestGameplayTag(FName("Message"));
+			if (MessageTag.IsValid() && Tag.MatchesTag(MessageTag))
+			{
+				const FUIWidgetRow* DataTableRowByTag = GetDataTableRowByTag<FUIWidgetRow>(MessageWidgetDataTable, Tag);
+				if (DataTableRowByTag)
+				{
+					MessageWidgetRowDelegate.Broadcast(*DataTableRowByTag);
+				}
+			}
 		}
 	});
 }
