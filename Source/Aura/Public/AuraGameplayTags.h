@@ -19,6 +19,7 @@ public:
 	static const FAuraGameplayTags& Get() { return GameplayTags; }
 	static void InitializeNativeGameplayTags();
 	
+	FGameplayTag Atrributes_Secondary_Armor;
 protected:
 	
 private:
