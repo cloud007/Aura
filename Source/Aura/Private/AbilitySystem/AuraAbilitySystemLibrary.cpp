@@ -20,7 +20,7 @@ UOverlayWidgetController* UAuraAbilitySystemLibrary::GetOverlayWidgetController(
 				PS->GetAbilitySystemComponent(), 
 				PS->GetAttributeSet());
 
-			return AuraHUD->GetOverlayWidgetController(WidgetControllerParams);
+			return AuraHUD->GetWidgetController<UOverlayWidgetController>(WidgetControllerParams);
 		}
 	}
 	return nullptr;
@@ -40,7 +40,7 @@ UAttributeMenuWidgetController* UAuraAbilitySystemLibrary::GetAttributeMenuWidge
 				PS->GetAbilitySystemComponent(), 
 				PS->GetAttributeSet());
 
-			return AuraHUD->GetAttributeMenuWidgetController(WidgetControllerParams);
+			return AuraHUD->GetWidgetController<UAttributeMenuWidgetController>(WidgetControllerParams);
 		}
 	}
 	return nullptr;

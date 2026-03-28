@@ -3,33 +3,11 @@
 
 #include "UI/HUD/AuraHUD.h"
 
-UOverlayWidgetController* AAuraHUD::GetOverlayWidgetController(const FWidgetControllerParams& Params)
-{
-	if (OverlayWidgetController == nullptr)
-	{
-		OverlayWidgetController = NewObject<UOverlayWidgetController>(this, OverlayWidgetControllerClass);
-		OverlayWidgetController->SetWidgetControllerParams(Params);
-		OverlayWidgetController->BindCallbacksToDependencies();
-	}
-	return OverlayWidgetController;
-}
-
-UAttributeMenuWidgetController* AAuraHUD::GetAttributeMenuWidgetController(const FWidgetControllerParams& Params)
-{
-	if (AttributeMenuWidgetController == nullptr)
-	{
-		AttributeMenuWidgetController = NewObject<UAttributeMenuWidgetController>(this, AttributeMenuWidgetControllerClass);
-		AttributeMenuWidgetController->SetWidgetControllerParams(Params);
-		AttributeMenuWidgetController->BindCallbacksToDependencies();
-	}
-	return AttributeMenuWidgetController;
-}
-
 void AAuraHUD::InitOverlay(APlayerController* InPlayerController, APlayerState* InPlayerState,
                            UAbilitySystemComponent* InAbilitySystemComponent, UAttributeSet* InAttributeSet)
 {
 	checkf(OverlayWidgetClass, TEXT("Overlay Widget Class uninitialized, please fill out BP_AuraHUD"));
-	checkf(OverlayWidgetControllerClass, TEXT("Overlay Widget Controller Class uninitialized, please fill out BP_AuraHUD"));
+	//checkf(OverlayWidgetControllerClass, TEXT("Overlay Widget Controller Class uninitialized, please fill out BP_AuraHUD"));
 	
 	UUserWidget* Widget = CreateWidget<UUserWidget>(GetWorld(), OverlayWidgetClass);
 	
@@ -39,11 +17,27 @@ void AAuraHUD::InitOverlay(APlayerController* InPlayerController, APlayerState* 
 		InPlayerState,
 		InAbilitySystemComponent, 
 		InAttributeSet);
-	UOverlayWidgetController* WidgetController = GetOverlayWidgetController(WidgetControllerParams);
 	
-	OverlayWidget->SetWidgetController(WidgetController);
+	InitConfigurationWidgetControllers(WidgetControllerParams);
 	
-	WidgetController->BrodcastInitialValues();
+	UOverlayWidgetController* OverlayWC = GetConfigurationWidgetController<UOverlayWidgetController>();
+	
+	OverlayWidget->SetWidgetController(OverlayWC);
+	
+	OverlayWC->BroadcastInitialValues();
 	
 	Widget->AddToViewport();	
+}
+
+void AAuraHUD::InitConfigurationWidgetControllers(const FWidgetControllerParams& Params)
+{
+	for (FAuraConfigController& ConfigController : ConfigurationWidgetControllers)
+	{
+		if (ConfigController.WidgetController == nullptr && ConfigController.WidgetControllerClass)
+		{
+			ConfigController.WidgetController = NewObject<UAuraWidgetController>(this, ConfigController.WidgetControllerClass);
+			ConfigController.WidgetController->SetWidgetControllerParams(Params);
+			ConfigController.WidgetController->BindCallbacksToDependencies();
+		}
+	}
 }
