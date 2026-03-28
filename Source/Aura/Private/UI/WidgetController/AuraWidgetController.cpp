@@ -3,7 +3,7 @@
 
 #include "UI/WidgetController/AuraWidgetController.h"
 
-void UAuraWidgetController::SetWidgetControllerParams(const FWigetControllerParams& Params)
+void UAuraWidgetController::SetWidgetControllerParams(const FWidgetControllerParams& Params)
 {
 	PlayerController = Params.PlayerController;
 	PlayerState = Params.PlayerState;

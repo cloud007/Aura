@@ -3,7 +3,7 @@
 
 #include "UI/HUD/AuraHUD.h"
 
-UOverlayWidgetController* AAuraHUD::GetOverlayWidgetController(const FWigetControllerParams& Params)
+UOverlayWidgetController* AAuraHUD::GetOverlayWidgetController(const FWidgetControllerParams& Params)
 {
 	if (OverlayWidgetController == nullptr)
 	{
@@ -23,7 +23,7 @@ void AAuraHUD::InitOverlay(APlayerController* InPlayerController, APlayerState* 
 	UUserWidget* Widget = CreateWidget<UUserWidget>(GetWorld(), OverlayWidgetClass);
 	
 	OverlayWidget = Cast<UAuraUserWidget>(Widget);
-	const FWigetControllerParams WidgetControllerParams = FWigetControllerParams(
+	const FWidgetControllerParams WidgetControllerParams = FWidgetControllerParams(
 		InPlayerController, 
 		InPlayerState,
 		InAbilitySystemComponent, 

@@ -19,7 +19,7 @@ class AURA_API AAuraHUD : public AHUD
 public:
 	TSoftObjectPtr<UAuraUserWidget> OverlayWidget;
 	
-	UOverlayWidgetController* GetOverlayWidgetController(const FWigetControllerParams& Params);
+	UOverlayWidgetController* GetOverlayWidgetController(const FWidgetControllerParams& Params);
 	
 	void InitOverlay(APlayerController *InPlayerController, 
 		APlayerState *InPlayerState,

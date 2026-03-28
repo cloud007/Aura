@@ -8,12 +8,12 @@
 #include "AuraStruct.generated.h"
 
 USTRUCT(BlueprintType)
-struct FWigetControllerParams
+struct FWidgetControllerParams
 {
 	GENERATED_BODY()
 	
-	FWigetControllerParams(){}
-	FWigetControllerParams(
+	FWidgetControllerParams(){}
+	FWidgetControllerParams(
 		APlayerController *InPlayerController, 
 		APlayerState *InPlayerState,
 		UAbilitySystemComponent *InAbilitySystemComponent,
