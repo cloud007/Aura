@@ -16,8 +16,18 @@ void UAttributeMenuWidgetController::BroadcastInitialValues()
 	
 	check(AttributeInfo);
 
-	FAuraAttributeInfo AuraAttributeInfo = AttributeInfo->FindAttributeInfoForTag(FAuraGameplayTags::Get().Attributes_Primary_Strength);
-	AuraAttributeInfo.AttributeValue = AuraAttributeSet->GetStrength();
-
-	AttributeInfoDelegate.Broadcast(AuraAttributeInfo);
+	for (const FAuraAttributeInfo& Info : AttributeInfo->AttributeInformation)
+	{
+		if (const auto* FuncPtr = AuraAttributeSet->TagsToAttributes.Find(Info.AttributeTag))
+		{
+			const FGameplayAttribute Attribute = (*FuncPtr)();
+			FAuraAttributeInfo InfoWithValue = Info;
+			InfoWithValue.AttributeValue = Attribute.GetNumericValue(AuraAttributeSet);
+			AttributeInfoDelegate.Broadcast(InfoWithValue);
+		}
+		else
+		{
+			UE_LOG(LogTemp, Error, TEXT("Can't find Attribute for Tag [%s] on AttributeMenuWidgetController [%s]"), *Info.AttributeTag.ToString(), *GetNameSafe(this));
+		}
+	}
 }
