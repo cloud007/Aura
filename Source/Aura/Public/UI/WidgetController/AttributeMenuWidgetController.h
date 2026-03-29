@@ -27,4 +27,7 @@ public:
 protected:
 	UPROPERTY(EditDefaultsOnly)
 	TObjectPtr<UAttributeInfo> AttributeInfo;
+	
+private:
+	void BroadcastAttributeInfo(const FGameplayAttribute& Attribute, const FAuraAttributeInfo& Info) const;
 };
