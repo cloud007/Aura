@@ -7,6 +7,7 @@
 #include "GameFramework/PlayerController.h"
 #include "Input/AuraInputConfig.h"
 #include "GameplayTagContainer.h"
+#include "AbilitySystem/AuraAbilitySystemComponent.h"
 #include "AuraPlayerController.generated.h"
 
 /**
@@ -45,4 +46,9 @@ private:
 	
 	UPROPERTY(EditDefaultsOnly, Category = "Input")
 	TObjectPtr<UAuraInputConfig> InputConfig;
+	
+	UPROPERTY()
+	TObjectPtr<UAuraAbilitySystemComponent> AuraAbilitySystemComponent;
+	
+	UAuraAbilitySystemComponent* GetAuraAbilitySystemComponent();
 };
