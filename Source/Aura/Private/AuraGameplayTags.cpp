@@ -30,4 +30,12 @@ void FAuraGameplayTags::InitializeNativeGameplayTags()
 	AddNativeTag(FName("Attributes.Secondary.ManaRegeneration"), TEXT("Regenerates mana over time"), GameplayTags.Attributes_Secondary_ManaRegeneration);
 	AddNativeTag(FName("Attributes.Secondary.MaxHealth"), TEXT("Increases maximum health"), GameplayTags.Attributes_Secondary_MaxHealth);
 	AddNativeTag(FName("Attributes.Secondary.MaxMana"), TEXT("Increases maximum mana"), GameplayTags.Attributes_Secondary_MaxMana);
+	
+	/* Input Tags */
+	AddNativeTag(FName("InputTag.LMB"), TEXT("Input tag for Left Mouse Button"), GameplayTags.InputTag_LMB);
+	AddNativeTag(FName("InputTag.RMB"), TEXT("Input tag for Right Mouse Button"), GameplayTags.InputTag_RMB);
+	AddNativeTag(FName("InputTag.1"), TEXT("Input tag for Keyboard Button 1"), GameplayTags.InputTag_1);
+	AddNativeTag(FName("InputTag.2"), TEXT("Input tag for Keyboard Button 2"), GameplayTags.InputTag_2);
+	AddNativeTag(FName("InputTag.3"), TEXT("Input tag for Keyboard Button 3"), GameplayTags.InputTag_3);
+	AddNativeTag(FName("InputTag.4"), TEXT("Input tag for Keyboard Button 4"), GameplayTags.InputTag_4);
 }
