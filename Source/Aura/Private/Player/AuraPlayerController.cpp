@@ -7,6 +7,8 @@
 #include "AuraGameplayTags.h"
 #include "EnhancedInputSubsystems.h"
 #include "EnhancedInputComponent.h"
+#include "NavigationPath.h"
+#include "NavigationSystem.h"
 #include "Input/AuraInputComponent.h"
 #include "Interaction/EnemyInterface.h"
 
@@ -134,9 +136,45 @@ void AAuraPlayerController::AbilityInputTagPressed(FGameplayTag InputTag)
 
 void AAuraPlayerController::AbilityInputTagReleased(FGameplayTag InputTag)
 {
-	if (GetAuraAbilitySystemComponent() == nullptr) return;
+	if (!InputTag.MatchesTagExact(FAuraGameplayTags::Get().InputTag_LMB))
+	{
+		if (GetAuraAbilitySystemComponent())
+		{
+			GetAuraAbilitySystemComponent()->AbilityInputTagReleased(InputTag);		
+		}
+		return;
+	}
 	
-	GetAuraAbilitySystemComponent()->AbilityInputTagReleased(InputTag);
+	if (bTargeting)
+	{
+		if (GetAuraAbilitySystemComponent())
+		{
+			GetAuraAbilitySystemComponent()->AbilityInputTagReleased(InputTag);
+		}
+	}
+	else
+	{
+		const APawn* ControlledPawn = GetPawn();
+		if (FollowTime <= ShortPressThreshold && ControlledPawn)
+		{
+			if ( UNavigationPath* NavPath = UNavigationSystemV1::FindPathToLocationSynchronously(this, ControlledPawn->GetActorLocation(), CachedDestination))
+			{
+				
+				Spline->ClearSplinePoints();
+				for (const FVector& PointLoc : NavPath->PathPoints)				{
+					Spline->AddSplinePoint(PointLoc, ESplineCoordinateSpace::World);
+					DrawDebugSphere(GetWorld(), PointLoc, 8.f, 8, FColor::Green, false, 5.f);
+					//DrawDebugLine(GetWorld(), PointLoc, PointLoc + FVector(0.f, 0.f, 50.f), FColor::Red, false, 5.f, 2.f);
+					//DrawDebugDirectionalArrow(GetWorld(), PointLoc, PointLoc + FVector(0.f, 0.f, 50.f), 25.f, FColor::Red, false, 5.f, 2.f, 2.f);
+					//DrawDebugBox(GetWorld(), PointLoc, FVector(25.f), FColor::Red, false, 5.f, 2.f);
+					//DrawDebugCapsule(GetWorld(), PointLoc, 25.f, 12	.f, FColor::Red, false, 5.f, 2.f, 2.f);
+				}
+				bAutoRunning = true;
+			}
+		}
+		FollowTime = 0.f;
+		bTargeting = false;
+	}
 }
 
 void AAuraPlayerController::AbilityInputTagHeld(FGameplayTag InputTag)
@@ -147,6 +185,7 @@ void AAuraPlayerController::AbilityInputTagHeld(FGameplayTag InputTag)
 		{
 			GetAuraAbilitySystemComponent()->AbilityInputTagHeld(InputTag);		
 		}
+		return;
 	}
 	
 	if (bTargeting)
