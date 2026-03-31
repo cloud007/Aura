@@ -43,6 +43,31 @@ void AAuraPlayerController::BeginPlay()
 	GetWorldTimerManager().SetTimer(CursorTraceTimerHandle, this, &AAuraPlayerController::CursorTrace, 0.1f, true);
 }
 
+void AAuraPlayerController::PlayerTick(float DeltaTime)
+{
+	Super::PlayerTick(DeltaTime);
+	AutoRun();
+}
+
+void AAuraPlayerController::AutoRun()
+{
+	if (!bAutoRunning) return;
+	
+	if (APawn *ControlledPawn = GetPawn())
+	{
+		const FVector LocationOnSpline = Spline->FindLocationClosestToWorldLocation(ControlledPawn->GetActorLocation(), ESplineCoordinateSpace::World);
+		const FVector Direction = Spline->FindDirectionClosestToWorldLocation(LocationOnSpline, ESplineCoordinateSpace::World);
+		ControlledPawn->AddMovementInput(Direction);
+		
+		const float DistanceToDestination = (LocationOnSpline - CachedDestination).Length();
+		if (DistanceToDestination <= AutoRunAcceptanceRadius)
+		{
+			bAutoRunning = false;
+			//Spline->ClearSplinePoints();
+		}
+	}
+}
+
 void AAuraPlayerController::SetupInputComponent()
 {
 	Super::SetupInputComponent();
@@ -169,6 +194,7 @@ void AAuraPlayerController::AbilityInputTagReleased(FGameplayTag InputTag)
 					//DrawDebugBox(GetWorld(), PointLoc, FVector(25.f), FColor::Red, false, 5.f, 2.f);
 					//DrawDebugCapsule(GetWorld(), PointLoc, 25.f, 12	.f, FColor::Red, false, 5.f, 2.f, 2.f);
 				}
+				CachedDestination = NavPath->PathPoints[NavPath->PathPoints.Num() - 1];
 				bAutoRunning = true;
 			}
 		}
@@ -221,3 +247,5 @@ UAuraAbilitySystemComponent* AAuraPlayerController::GetAuraAbilitySystemComponen
 	}
 	return AuraAbilitySystemComponent;
 }
+
+
