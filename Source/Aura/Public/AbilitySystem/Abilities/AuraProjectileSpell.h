@@ -4,6 +4,7 @@
 
 #include "CoreMinimal.h"
 #include "AbilitySystem/Abilities/AuraGameplayAbility.h"
+#include "Actor/AuraProjectile.h"
 #include "AuraProjectileSpell.generated.h"
 
 /**
@@ -20,4 +21,7 @@ protected:
 		const FGameplayAbilityActorInfo* ActorInfo, 
 		const FGameplayAbilityActivationInfo ActivationInfo, 
 		const FGameplayEventData* TriggerEventData) override;
+	
+	UPROPERTY(EditAnywhere, BlueprintReadOnly)
+	TSubclassOf<AAuraProjectile> ProjectileClass;
 };
