@@ -3,6 +3,8 @@
 
 #include "AbilitySystem/AbilityTasks/TargetDataUnderMouse.h"
 
+#include "AbilitySystemComponent.h"
+
 UTargetDataUnderMouse* UTargetDataUnderMouse::CreateTargetDataUnderMouse(UGameplayAbility* OwningAbility)
 {
 	UTargetDataUnderMouse *MyObj = NewAbilityTask<UTargetDataUnderMouse>(OwningAbility);
@@ -11,17 +13,49 @@ UTargetDataUnderMouse* UTargetDataUnderMouse::CreateTargetDataUnderMouse(UGamepl
 
 void UTargetDataUnderMouse::Activate()
 {
-	//Get Local under the mouse cursor, draw debug sphere at the location in the ability
+	
+	const bool bIsLocallyControlled = Ability->GetCurrentActorInfo()->IsLocallyControlled();
+	if (bIsLocallyControlled)	{
+		SendMouseCursorData();
+	}else
+	{
+		//TODO: We are on the server, so listern for target data
+	}
+}
+
+void UTargetDataUnderMouse::SendMouseCursorData()
+{
+	FScopedPredictionWindow ScopedPrediction(AbilitySystemComponent.Get());
+	
 	APlayerController* PlayerController = Ability->GetCurrentActorInfo()->PlayerController.Get();
-	FHitResult CursorResult;
 	if (PlayerController)
 	{
+
+		FHitResult CursorResult;
 		PlayerController->GetHitResultUnderCursor(ECC_Visibility, false, CursorResult);
 		if (CursorResult.bBlockingHit)
 		{
-			//draw debug sphere at the location
-			DrawDebugSphere(GetWorld(), CursorResult.ImpactPoint, 100.f, 12, FColor::White, false, 10.f);
-			ValidData.Broadcast(CursorResult.ImpactPoint);
+			
+			FGameplayAbilityTargetDataHandle DataHandle;
+			
+			FGameplayAbilityTargetData_SingleTargetHit *Data = new FGameplayAbilityTargetData_SingleTargetHit();
+			Data->HitResult = CursorResult;
+			
+			DataHandle.Add(Data);
+			
+			AbilitySystemComponent->ServerSetReplicatedTargetData(
+				GetAbilitySpecHandle(), 
+				GetActivationPredictionKey(),
+				DataHandle, 
+				FGameplayTag(),
+				AbilitySystemComponent->ScopedPredictionKey
+			);
+			
+			if (ShouldBroadcastAbilityTaskDelegates())
+			{
+				ValidData.Broadcast(DataHandle);
+				//EndTask();
+			}
 		}
 	}
 }
