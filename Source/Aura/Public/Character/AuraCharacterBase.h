@@ -35,6 +35,9 @@ protected:
 	UPROPERTY()
 	TObjectPtr<UAbilitySystemComponent> AbilitySystemComponent;
 	
+	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = "MotionWarping")
+	class UMotionWarpingComponent* MotionWarpingComponent;
+	
 	UPROPERTY()
 	TObjectPtr<UAttributeSet> AttributeSet;
 	

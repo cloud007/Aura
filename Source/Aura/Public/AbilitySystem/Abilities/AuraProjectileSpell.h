@@ -23,6 +23,9 @@ protected:
 		const FGameplayEventData* TriggerEventData) override;
 	
 	UFUNCTION(BlueprintCallable, Category="Projectile")
+	void UpdateFacingTarget(const FVector& TargetLocation);
+	
+	UFUNCTION(BlueprintCallable, Category="Projectile")
 	bool SpawnProjectile(const FVector& ProjectileTargetLocation);
 	
 	UPROPERTY(EditAnywhere, BlueprintReadOnly)

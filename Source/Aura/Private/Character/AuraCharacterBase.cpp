@@ -5,6 +5,7 @@
 #include "AbilitySystemComponent.h"
 #include "AbilitySystem/AuraAbilitySystemComponent.h"
 #include "Components/CapsuleComponent.h"
+#include "MotionWarpingComponent.h"
 
 AAuraCharacterBase::AAuraCharacterBase()
 {
@@ -13,6 +14,8 @@ AAuraCharacterBase::AAuraCharacterBase()
 	Weapon = CreateDefaultSubobject<USkeletalMeshComponent>("Weapon");
 	Weapon->SetupAttachment(GetMesh(), FName("WeaponHandSocket"));
 	Weapon->SetCollisionEnabled(ECollisionEnabled::NoCollision);
+	
+	MotionWarpingComponent = CreateDefaultSubobject<UMotionWarpingComponent>("MotionWarpingComponent");
 }
 
 void AAuraCharacterBase::PostInitializeComponents()

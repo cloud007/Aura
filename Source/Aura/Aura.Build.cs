@@ -16,7 +16,8 @@ public class Aura : ModuleRules
 			"InputCore", 
 			"EnhancedInput",
 			"AnimGraphRuntime",
-			"GameplayAbilities"
+			"GameplayAbilities",
+			"MotionWarping"
 		});
 
 		PrivateDependencyModuleNames.AddRange(new string[]
