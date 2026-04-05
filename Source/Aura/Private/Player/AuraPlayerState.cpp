@@ -12,11 +12,11 @@ AAuraPlayerState::AAuraPlayerState()
 {
 	SetNetUpdateFrequency(100.f);
 	
-	AbilitySystemComponent = CreateDefaultSubobject<UAuraAbilitySystemComponent>(ABILITY_SYSTEM_COMPONENT);
+	AbilitySystemComponent = CreateDefaultSubobject<UAuraAbilitySystemComponent>("AbilitySystemComponent");
 	AbilitySystemComponent->SetIsReplicated(true);
 	AbilitySystemComponent->SetReplicationMode(EGameplayEffectReplicationMode::Mixed);
 	
-	AttributeSet = CreateDefaultSubobject<UAuraAttributeSet>(ATTRIBUTE_SET);
+	AttributeSet = CreateDefaultSubobject<UAuraAttributeSet>("AttributeSet");
 }
 
 void AAuraPlayerState::GetLifetimeReplicatedProps(TArray<class FLifetimeProperty>& OutLifetimeProps) const
