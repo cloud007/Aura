@@ -119,6 +119,22 @@ void UAuraAttributeSet::PostGameplayEffectExecute(const FGameplayEffectModCallba
 	{
 		SetMana(FMath::Clamp(GetMana(), 0.f, GetMaxMana()));
 	}
+	
+	if (Data.EvaluatedData.Attribute == GetIncomingDamageAttribute())
+	{
+		const float LocalIncomingDamage = GetIncomingDamage();
+		//UE_LOG(LogTemp, Warning, TEXT("Incoming Damage on %s: %f"), *Props.TargetAvatarActor->GetName(), LocalIncomingDamage);
+		SetIncomingDamage(0.f);
+		
+		if (LocalIncomingDamage > 0.f)
+		{
+			const float NewHealth = GetHealth() - LocalIncomingDamage;
+			SetHealth(FMath::Clamp(NewHealth, 0.f, GetMaxHealth()));
+			
+			const bool bFatal = NewHealth <= 0.f;
+			UE_LOG(LogTemp, Warning, TEXT("Applied %f damage to %s, Health: %f"), LocalIncomingDamage, *Props.TargetAvatarActor->GetName(), GetHealth());
+		}
+	}
 }
 
 void UAuraAttributeSet::OnRep_Health(const FGameplayAttributeData& OldHealth) const
