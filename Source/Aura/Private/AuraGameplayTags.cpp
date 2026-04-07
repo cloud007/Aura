@@ -38,4 +38,7 @@ void FAuraGameplayTags::InitializeNativeGameplayTags()
 	AddNativeTag(FName("InputTag.2"), TEXT("Input tag for Keyboard Button 2"), GameplayTags.InputTag_2);
 	AddNativeTag(FName("InputTag.3"), TEXT("Input tag for Keyboard Button 3"), GameplayTags.InputTag_3);
 	AddNativeTag(FName("InputTag.4"), TEXT("Input tag for Keyboard Button 4"), GameplayTags.InputTag_4);
+	
+	/* Effect Tags */
+	AddNativeTag(FName("Damage"), TEXT("Tag for damage effects"), GameplayTags.Damage);
 }
