@@ -44,6 +44,8 @@ public:
 	
 	FGameplayTag Damage;
 	
+	FGameplayTag Effects_HitReact;
+	
 private:
 	static FAuraGameplayTags GameplayTags;
 	static void AddNativeTag(const FName& TagName, const FString& TagComment, FGameplayTag& OutTag);

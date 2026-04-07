@@ -27,4 +27,7 @@ public:
 	
 	UFUNCTION(BlueprintImplementableEvent, BlueprintCallable, Category="CombatInterface")
 	void UpdateFacingTarget( const FVector& FacingTargetLocation);
+	
+	UFUNCTION(BlueprintNativeEvent, BlueprintCallable)
+	UAnimMontage* GetHitReactMontage();
 };

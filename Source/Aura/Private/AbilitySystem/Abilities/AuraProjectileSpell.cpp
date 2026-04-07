@@ -50,7 +50,18 @@ bool UAuraProjectileSpell::SpawnProjectile(const FVector& ProjectileTargetLocati
 	
 	UAbilitySystemBlueprintLibrary::AssignTagSetByCallerMagnitude(SpecHandle, AuraGameplayTags.Damage, ScaledDamage);
 	
+	
 	Projectile->DamageEffectSpecHandle = SpecHandle;
 	Projectile->FinishSpawning(SpawnTransform);
+	
+	FGameplayEventData Data;
+	Data.Instigator = GetOwningActorFromActorInfo();
+	Data.Target = Cast<APawn>(GetOwningActorFromActorInfo());
+	
+	UAbilitySystemBlueprintLibrary::SendGameplayEventToActor(
+		Cast<APawn>(GetOwningActorFromActorInfo()),
+		AuraGameplayTags.Effects_HitReact,
+		Data);
+	
 	return true;
 }
