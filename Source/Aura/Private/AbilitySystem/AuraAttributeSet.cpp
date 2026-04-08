@@ -7,7 +7,9 @@
 #include "GameFramework/Character.h"
 #include "GameplayEffectExtension.h"
 #include "Interaction/CombatInterface.h"
+#include "Kismet/GameplayStatics.h"
 #include "Net/UnrealNetwork.h"
+#include "Player/AuraPlayerController.h"
 #include "Structs/AuraStruct.h"
 
 UAuraAttributeSet::UAuraAttributeSet()
@@ -76,7 +78,7 @@ void UAuraAttributeSet::SetEffectProperties(const FGameplayEffectModCallbackData
 		}
 		if (Props.SourceController)
 		{
-			ACharacter* SourceCharacter = Cast<ACharacter>(Props.SourceController->GetPawn());
+			Props.SourceCharacter = Cast<ACharacter>(Props.SourceController->GetPawn());
 		}
 	}
 
@@ -88,6 +90,8 @@ void UAuraAttributeSet::SetEffectProperties(const FGameplayEffectModCallbackData
 		Props.TargetASC = UAbilitySystemBlueprintLibrary::GetAbilitySystemComponent(Props.TargetAvatarActor);
 	}
 }
+
+
 
 void UAuraAttributeSet::PreAttributeChange(const FGameplayAttribute& Attribute, float& NewValue)
 {
@@ -143,10 +147,26 @@ void UAuraAttributeSet::PostGameplayEffectExecute(const FGameplayEffectModCallba
 			}else
 			{
 				Props.TargetASC->TryActivateAbilitiesByTag(FAuraGameplayTags::Get().Effects_HitReact.GetSingleTagContainer());
-				UE_LOG(LogTemp, Warning, TEXT("Hit React Activated on %s"), *Props.TargetAvatarActor->GetName());
 			}
+			
+			ShowFloatingText(Props, LocalIncomingDamage);
 		}
 	}
+}
+
+void UAuraAttributeSet::ShowFloatingText(const FEffectProperties& Props, float DamageAmount) const
+{
+	if (Props.SourceCharacter != Props.TargetCharacter)
+	{
+		if (AAuraPlayerController* PC = Cast<AAuraPlayerController>(UGameplayStatics::GetPlayerController(Props.SourceCharacter, 0)))
+		{
+			PC->ShowDamageNumber(DamageAmount, Props.TargetCharacter);
+		}
+		//Props.TargetASC->TryActivateAbilitiesByTag(FAuraGameplayTags::Get().Effects_Damage.GetSingleTagContainer());
+		//Props.SourceASC->TryActivateAbilitiesByTag(FAuraGameplayTags::Get().Effects_Damage.GetSingleTagContainer());
+		//Props.SourceController->ClientPlayCameraShake(Props.SourceCharacter->HitCameraShake);
+		//Props.SourceASC->TryActivateAbilitiesByTag(FAuraGameplayTags::Get().Effects_Damage.GetSingleTagContainer());
+	}	
 }
 
 void UAuraAttributeSet::OnRep_Health(const FGameplayAttributeData& OldHealth) const
