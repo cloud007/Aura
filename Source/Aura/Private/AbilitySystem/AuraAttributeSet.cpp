@@ -6,6 +6,7 @@
 #include "AuraGameplayTags.h"
 #include "GameFramework/Character.h"
 #include "GameplayEffectExtension.h"
+#include "Interaction/CombatInterface.h"
 #include "Net/UnrealNetwork.h"
 #include "Structs/AuraStruct.h"
 
@@ -132,7 +133,14 @@ void UAuraAttributeSet::PostGameplayEffectExecute(const FGameplayEffectModCallba
 			SetHealth(FMath::Clamp(NewHealth, 0.f, GetMaxHealth()));
 			
 			const bool bFatal = NewHealth <= 0.f;
-			if (!bFatal)
+			if (bFatal)
+			{
+				ICombatInterface* CombatInterface = Cast<ICombatInterface>(Props.TargetAvatarActor);
+				if (CombatInterface)
+				{
+					CombatInterface->Die();
+				}
+			}else
 			{
 				Props.TargetASC->TryActivateAbilitiesByTag(FAuraGameplayTags::Get().Effects_HitReact.GetSingleTagContainer());
 				UE_LOG(LogTemp, Warning, TEXT("Hit React Activated on %s"), *Props.TargetAvatarActor->GetName());
