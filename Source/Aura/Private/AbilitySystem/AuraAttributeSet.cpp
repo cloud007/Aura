@@ -132,7 +132,11 @@ void UAuraAttributeSet::PostGameplayEffectExecute(const FGameplayEffectModCallba
 			SetHealth(FMath::Clamp(NewHealth, 0.f, GetMaxHealth()));
 			
 			const bool bFatal = NewHealth <= 0.f;
-			UE_LOG(LogTemp, Warning, TEXT("Applied %f damage to %s, Health: %f"), LocalIncomingDamage, *Props.TargetAvatarActor->GetName(), GetHealth());
+			if (!bFatal)
+			{
+				Props.TargetASC->TryActivateAbilitiesByTag(FAuraGameplayTags::Get().Effects_HitReact.GetSingleTagContainer());
+				UE_LOG(LogTemp, Warning, TEXT("Hit React Activated on %s"), *Props.TargetAvatarActor->GetName());
+			}
 		}
 	}
 }
