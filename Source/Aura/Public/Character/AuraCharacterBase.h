@@ -7,6 +7,7 @@
 #include "GameplayEffect.h"
 #include "GameFramework/Character.h"
 #include "Interaction/CombatInterface.h"
+#include "Materials/MaterialInstance.h"
 #include "AuraCharacterBase.generated.h"
 
 UCLASS(Abstract)
@@ -63,6 +64,22 @@ protected:
 	virtual void InitializeDefaultAttributes() const;
 	
 	void AddCharacterAbilities();
+	
+	/* Dissolve Effects */
+	
+	void Dissolve();
+	
+	UFUNCTION(BlueprintImplementableEvent)
+	void StartDissolveTimeline(UMaterialInstanceDynamic* DynamicMaterialInstance);
+	
+	UFUNCTION(BlueprintImplementableEvent)
+	void StartWeaponDissolveTimeline(UMaterialInstanceDynamic* DynamicMaterialInstance);
+	
+	UPROPERTY(BlueprintReadOnly, EditAnywhere)
+	TObjectPtr<UMaterialInstance> DissolveMaterialInstance;
+	
+	UPROPERTY(BlueprintReadOnly, EditAnywhere)
+	TObjectPtr<UMaterialInstance> WeaponDissolveMaterialInstance;
 	
 private:
 	UPROPERTY(EditAnywhere, Category = "Abilities")
