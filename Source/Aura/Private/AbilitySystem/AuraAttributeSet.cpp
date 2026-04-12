@@ -162,7 +162,7 @@ void UAuraAttributeSet::ShowFloatingText(const FEffectProperties& Props, float D
 	{
 		if (AAuraPlayerController* PC = Cast<AAuraPlayerController>(UGameplayStatics::GetPlayerController(Props.SourceCharacter, 0)))
 		{
-			PC->ShowDamageNumber(DamageAmount, Props.TargetCharacter);
+			PC->ShowDamageNumber(DamageAmount, Props.TargetCharacter, bBlockedHit, bCriticalHit);
 		}
 		//Props.TargetASC->TryActivateAbilitiesByTag(FAuraGameplayTags::Get().Effects_Damage.GetSingleTagContainer());
 		//Props.SourceASC->TryActivateAbilitiesByTag(FAuraGameplayTags::Get().Effects_Damage.GetSingleTagContainer());
