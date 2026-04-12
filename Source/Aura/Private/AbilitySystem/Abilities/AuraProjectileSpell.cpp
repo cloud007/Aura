@@ -57,21 +57,16 @@ bool UAuraProjectileSpell::SpawnProjectile(const FVector& ProjectileTargetLocati
 	const FGameplayEffectSpecHandle SpecHandle = SourceASC->MakeOutgoingSpec(DamageEffectClass, GetAbilityLevel(), EffectContextHandle);
 	
 	const FAuraGameplayTags AuraGameplayTags = FAuraGameplayTags::Get();
-	const float ScaledDamage = Damage.GetValueAtLevel(10);
 	
-	UAbilitySystemBlueprintLibrary::AssignTagSetByCallerMagnitude(SpecHandle, AuraGameplayTags.Damage, ScaledDamage);
+	//for over DamageTypes
+	for (const TPair<FGameplayTag, FScalableFloat>& Pair : DamageTypes)
+	{
+		const float ScaledDamage = Pair.Value.GetValueAtLevel(GetAbilityLevel());
+		UAbilitySystemBlueprintLibrary::AssignTagSetByCallerMagnitude(SpecHandle, Pair.Key, ScaledDamage);
+	}
 	
 	Projectile->DamageEffectSpecHandle = SpecHandle;
 	Projectile->FinishSpawning(SpawnTransform);
-	
-	FGameplayEventData Data;
-	Data.Instigator = GetOwningActorFromActorInfo();
-	Data.Target = Cast<APawn>(GetOwningActorFromActorInfo());
-	
-	UAbilitySystemBlueprintLibrary::SendGameplayEventToActor(
-		Cast<APawn>(GetOwningActorFromActorInfo()),
-		AuraGameplayTags.Effects_HitReact,
-		Data);
 	
 	return true;
 }

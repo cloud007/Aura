@@ -41,5 +41,9 @@ void FAuraGameplayTags::InitializeNativeGameplayTags()
 	
 	/* Effect Tags */
 	AddNativeTag(FName("Damage"), TEXT("Tag for damage effects"), GameplayTags.Damage);
+	AddNativeTag(FName("Damage.Fire"), TEXT("Tag for fire damage effects"), GameplayTags.Damage_Fire);
+	
+	GameplayTags.DamageTypes.Add(GameplayTags.Damage_Fire);
+	
 	AddNativeTag(FName("Effects.HitReact"), TEXT("Tag for hit react effects"), GameplayTags.Effects_HitReact);
 }
