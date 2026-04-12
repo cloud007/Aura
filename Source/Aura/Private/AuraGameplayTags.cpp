@@ -41,9 +41,25 @@ void FAuraGameplayTags::InitializeNativeGameplayTags()
 	
 	/* Effect Tags */
 	AddNativeTag(FName("Damage"), TEXT("Tag for damage effects"), GameplayTags.Damage);
+	
+	/* Damage Types */
 	AddNativeTag(FName("Damage.Fire"), TEXT("Tag for fire damage effects"), GameplayTags.Damage_Fire);
+	AddNativeTag(FName("Damage.Lighting"), TEXT("Tag for lighting damage effects"), GameplayTags.Damage_Lighting);
+	AddNativeTag(FName("Damage.Arcane"), TEXT("Tag for arcane damage effects"), GameplayTags.Damage_Arcane);
+	AddNativeTag(FName("Damage.Physical"), TEXT("Tag for physical damage effects"), GameplayTags.Damage_Physical);
 	
-	GameplayTags.DamageTypes.Add(GameplayTags.Damage_Fire);
+	/* Resistances */
+	AddNativeTag(FName("Attributes.Resistance.Fire"), TEXT("Tag for fire resistance"), GameplayTags.Attributes_Resistance_Fire);
+	AddNativeTag(FName("Attributes.Resistance.Lighting"), TEXT("Tag for lighting resistance"), GameplayTags.Attributes_Resistance_Lighting);
+	AddNativeTag(FName("Attributes.Resistance.Arcane"), TEXT("Tag for arcane resistance"), GameplayTags.Attributes_Resistance_Arcane);
+	AddNativeTag(FName("Attributes.Resistance.Physical"), TEXT("Tag for physical resistance"), GameplayTags.Attributes_Resistance_Physical);
 	
+	/* Map of Damage Types to Resistances */
+	GameplayTags.DamageTypesToResistances.Add(GameplayTags.Damage_Fire, GameplayTags.Attributes_Resistance_Fire);
+	GameplayTags.DamageTypesToResistances.Add(GameplayTags.Damage_Lighting, GameplayTags.Attributes_Resistance_Lighting);
+	GameplayTags.DamageTypesToResistances.Add(GameplayTags.Damage_Arcane, GameplayTags.Attributes_Resistance_Arcane);
+	GameplayTags.DamageTypesToResistances.Add(GameplayTags.Damage_Physical, GameplayTags.Attributes_Resistance_Physical);
+	
+	/* Effects */
 	AddNativeTag(FName("Effects.HitReact"), TEXT("Tag for hit react effects"), GameplayTags.Effects_HitReact);
 }
