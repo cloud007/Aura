@@ -17,10 +17,10 @@ public:
 
 	virtual UScriptStruct* GetScriptStruct() const override
 	{
-		return FAuraGameplayEffectContext::StaticStruct();
+		return StaticStruct();
 	}
 
-	virtual FGameplayEffectContext* Duplicate() const override
+	virtual FAuraGameplayEffectContext* Duplicate() const override
 	{
 		FAuraGameplayEffectContext* NewContext = new FAuraGameplayEffectContext();
 		*NewContext = *this;
