@@ -77,6 +77,23 @@ public:
 	FGameplayAttributeData ManaRegeneration;
 	ATTRIBUTE_ACCESSORS_BASIC(UAuraAttributeSet, ManaRegeneration);
 	
+	/** Resistance Attributes */
+	UPROPERTY(ReplicatedUsing = OnRep_FireResistance, BlueprintReadOnly, Category = "Resistance Attributes")
+	FGameplayAttributeData FireResistance;
+	ATTRIBUTE_ACCESSORS_BASIC(UAuraAttributeSet, FireResistance);
+	
+	UPROPERTY(ReplicatedUsing = OnRep_LightingResistance, BlueprintReadOnly, Category = "Resistance Attributes")
+	FGameplayAttributeData LightingResistance;
+	ATTRIBUTE_ACCESSORS_BASIC(UAuraAttributeSet, LightingResistance);
+	
+	UPROPERTY(ReplicatedUsing = OnRep_ArcaneResistance, BlueprintReadOnly, Category = "Resistance Attributes")
+	FGameplayAttributeData ArcaneResistance;
+	ATTRIBUTE_ACCESSORS_BASIC(UAuraAttributeSet, ArcaneResistance);
+	
+	UPROPERTY(ReplicatedUsing = OnRep_PhysicalResistance, BlueprintReadOnly, Category = "Resistance Attributes")
+	FGameplayAttributeData PhysicalResistance;
+	ATTRIBUTE_ACCESSORS_BASIC(UAuraAttributeSet, PhysicalResistance);
+	
 	/** Vital Attributes */
 	
 	UPROPERTY(ReplicatedUsing = OnRep_Health, BlueprintReadOnly, Category = "Vital Attributes")
@@ -148,6 +165,18 @@ public:
 	
 	UFUNCTION()
 	void OnRep_ManaRegeneration(const FGameplayAttributeData &OldManaRegeneration) const;
+	
+	UFUNCTION()
+	void OnRep_FireResistance(const FGameplayAttributeData &OldFireResistance) const;
+	
+	UFUNCTION()
+	void OnRep_LightingResistance(const FGameplayAttributeData &OldLightingResistance) const;
+	
+	UFUNCTION()
+	void OnRep_ArcaneResistance(const FGameplayAttributeData &OldArcaneResistance) const;
+	
+	UFUNCTION()
+	void OnRep_PhysicalResistance(const FGameplayAttributeData &OldPhysicalResistance) const;
 	
 private:
 	
