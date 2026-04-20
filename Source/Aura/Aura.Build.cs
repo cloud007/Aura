@@ -25,7 +25,8 @@ public class Aura : ModuleRules
 		{
 			"GameplayTags",
 			"GameplayTasks",
-			"NavigationSystem"
+			"NavigationSystem", 
+			"AIModule"
 		});
 
 		// Uncomment if you are using Slate UI
