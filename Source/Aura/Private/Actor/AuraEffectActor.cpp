@@ -58,7 +58,7 @@ void AAuraEffectActor::ApplyEffectToTarget(AActor* TargetActor, TSubclassOf<UGam
 	{
 		return;
 	}
-	ds
+	
 	if (TargetActor->ActorHasTag(FName("Enemy")) && !bApplyEffectsToEnemies) return;
 	
 	UAbilitySystemComponent* AbilitySystemComponent = ResolveAbilitySystemComponent(TargetActor);
@@ -81,7 +81,7 @@ void AAuraEffectActor::ApplyEffectToTarget(AActor* TargetActor, TSubclassOf<UGam
 			Destroy();
 		}
 	}
-s}
+}
 
 void AAuraEffectActor::OnOverlap(AActor* TargetActor)
 {
