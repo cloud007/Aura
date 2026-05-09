@@ -53,6 +53,8 @@ void FAuraGameplayTags::InitializeNativeGameplayTags()
 	AddNativeTag(FName("Attributes.Resistance.Lighting"), TEXT("Tag for lighting resistance"), GameplayTags.Attributes_Resistance_Lighting);
 	AddNativeTag(FName("Attributes.Resistance.Arcane"), TEXT("Tag for arcane resistance"), GameplayTags.Attributes_Resistance_Arcane);
 	AddNativeTag(FName("Attributes.Resistance.Physical"), TEXT("Tag for physical resistance"), GameplayTags.Attributes_Resistance_Physical);
+
+	AddNativeTag(FName("Abilities.Attack"), TEXT("Tag for attack abilities"), GameplayTags.Abilities_Attack);
 	
 	/* Map of Damage Types to Resistances */
 	GameplayTags.DamageTypesToResistances.Add(GameplayTags.Damage_Fire, GameplayTags.Attributes_Resistance_Fire);
