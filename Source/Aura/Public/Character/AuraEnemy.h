@@ -29,9 +29,10 @@ public:
 	
 	/** Combat Interface */
 	virtual int32 GetPlayerLevel() override;
-	/** End of Combat Interface */
-	
 	virtual void Die() override;
+	virtual void SetCombatTarget_Implementation(AActor* InCombatTarget) override;	
+	virtual AActor* GetCombatTarget_Implementation() const override;
+	/** End of Combat Interface */
 	
 	UPROPERTY(BlueprintAssignable, Category = "GAS|Attributes")
 	FOnAttributeChangedSignature OnHealthChanged;
@@ -46,6 +47,9 @@ public:
 	
 	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = "Combat")
 	float LifeSpan = 5.f;
+	
+	UPROPERTY(BlueprintReadWrite, Category = "Combat")
+	TObjectPtr<AActor> CombatTarget;
 	
 protected:
 	virtual void BeginPlay() override;
